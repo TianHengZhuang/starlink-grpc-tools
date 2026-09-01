@@ -61,6 +61,12 @@ python3 dish_grpc_influx.py -t 30 [... probably other args to specify server opt
 
 The exception to this is `dish_grpc_prometheus.py`, for which the timing interval is determined by whatever is polling the HTTP page it exports.
 
+`dish_grpc_prometheus.py` supports the same status and history stats modes as the other scripts. In particular, include the `ping_drop` mode to also export ping drop statistics, which can be useful for tracking packet loss in Grafana:
+```shell script
+python3 dish_grpc_prometheus.py status ping_drop
+```
+The packet loss ratio over the reported sample window can be computed as `starlink_ping_stats_total_ping_drop / starlink_ping_stats_samples`. By default the statistics cover the dish's 15 minute history buffer; use the `-t` and `-o` options to aggregate over longer periods, as described in the [Polling interval](#polling-interval) section.
+
 Some of the scripts (currently only the InfluxDB and MQTT ones) also support specifying options through environment variables. See details in the scripts for the environment variables that map to options.
 
 #### Bulk history data collection
@@ -138,7 +144,7 @@ Run with the `-h` command line option for full usage details. For more informati
 
 `dish_json_text.py` is similar to `dish_grpc_text.py`, but it takes JSON format input from a file instead of pulling it directly from the dish via grpc call. It also does not support the status info modes, because those are easy enough to interpret directly from the JSON data. The easiest way to use it is to pipe the `grpcurl` command directly into it. For example:
 ```shell script
-grpcurl -plaintext -d {\"get_history\":{}} 192.168.100.1:9200 SpaceX.API.Device.Device/Handle | python3 dish_json_text.py ping_drop
+grpcurl -plaintext -d {"get_history":{}} 192.168.100.1:9200 SpaceX.API.Device.Device/Handle | python3 dish_json_text.py ping_drop
 ```
 For more usage options, run:
 ```shell script
