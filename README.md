@@ -65,7 +65,7 @@ The exception to this is `dish_grpc_prometheus.py`, for which the timing interva
 ```shell script
 python3 dish_grpc_prometheus.py status ping_drop
 ```
-The packet loss ratio over the reported sample window can be computed as `starlink_ping_stats_total_ping_drop / starlink_ping_stats_samples`. By default the statistics cover the dish's 15 minute history buffer; use the `-t` and `-o` options to aggregate over longer periods, as described in the [Polling interval](#polling-interval) section.
+The packet loss ratio over the reported sample window can be computed as `starlink_ping_stats_total_ping_drop / starlink_ping_stats_samples`. By default the statistics cover the dish's 15 minute history buffer. Note that for `dish_grpc_prometheus.py` the collection interval is determined by how often the exported HTTP page is polled, so the `-t`/`-o` loop options do not apply here (see the [Polling interval](#polling-interval) section for the scripts that do use them).
 
 Some of the scripts (currently only the InfluxDB and MQTT ones) also support specifying options through environment variables. See details in the scripts for the environment variables that map to options.
 
