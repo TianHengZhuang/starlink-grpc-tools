@@ -144,7 +144,7 @@ Run with the `-h` command line option for full usage details. For more informati
 
 `dish_json_text.py` is similar to `dish_grpc_text.py`, but it takes JSON format input from a file instead of pulling it directly from the dish via grpc call. It also does not support the status info modes, because those are easy enough to interpret directly from the JSON data. The easiest way to use it is to pipe the `grpcurl` command directly into it. For example:
 ```shell script
-grpcurl -plaintext -d {"get_history":{}} 192.168.100.1:9200 SpaceX.API.Device.Device/Handle | python3 dish_json_text.py ping_drop
+grpcurl -plaintext -d {\"get_history"\:{}} 192.168.100.1:9200 SpaceX.API.Device.Device/Handle | python3 dish_json_text.py ping_drop
 ```
 For more usage options, run:
 ```shell script
